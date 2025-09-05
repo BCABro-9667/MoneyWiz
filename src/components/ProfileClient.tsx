@@ -13,10 +13,21 @@ import { useToast } from '@/hooks/use-toast';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from '@/components/ui/skeleton';
 import { User as UserIcon } from 'lucide-react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 const profileFormSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
-  email: z.string().email({ message: 'Invalid email address.' }),
+  email: z.string().email(),
 });
 
 const passwordFormSchema = z.object({
@@ -28,6 +39,7 @@ interface User {
     _id: string;
     name: string;
     email: string;
+    avatar?: string;
     createdAt: string;
 }
 
@@ -36,6 +48,7 @@ export default function ProfileClient() {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState('');
 
   useEffect(() => {
     async function fetchUser() {
@@ -47,6 +60,7 @@ export default function ProfileClient() {
         }
         const userData = await response.json();
         setUser(userData);
+        setAvatarUrl(userData.avatar || '');
       } catch (error: any) {
         toast({
           variant: 'destructive',
@@ -82,7 +96,7 @@ export default function ProfileClient() {
       const response = await fetch('/api/auth/user', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values),
+        body: JSON.stringify({ name: values.name, avatar: avatarUrl }),
       });
       const data = await response.json();
       if (!response.ok) {
@@ -157,21 +171,43 @@ export default function ProfileClient() {
       <Card className="rounded-[50px] shadow-lg">
          <CardHeader>
             <CardTitle>Avatar</CardTitle>
-            <CardDescription>Update your profile picture.</CardDescription>
+            <CardDescription>Update your profile picture using an image URL.</CardDescription>
         </CardHeader>
         <CardContent className="flex items-center gap-6">
           <Avatar className="h-24 w-24">
-            <AvatarImage src="/avatar.png" alt={user.name} />
+            <AvatarImage src={user.avatar || '/avatar.png'} alt={user.name} />
             <AvatarFallback><UserIcon className="h-12 w-12" /></AvatarFallback>
           </Avatar>
-          <Button disabled>Upload Image</Button>
+           <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button>Update Avatar</Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Update Avatar URL</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Please enter the URL of your new avatar image.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <Input
+                    type="url"
+                    placeholder="https://example.com/avatar.png"
+                    value={avatarUrl}
+                    onChange={(e) => setAvatarUrl(e.target.value)}
+                />
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={() => onProfileSubmit({ name: user.name, email: user.email })}>Save</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
         </CardContent>
       </Card>
 
       <Card className="rounded-[50px] shadow-lg">
         <CardHeader>
           <CardTitle>Personal Information</CardTitle>
-          <CardDescription>Update your name and email address.</CardDescription>
+          <CardDescription>Update your name. Email is not editable.</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...profileForm}>
@@ -196,7 +232,7 @@ export default function ProfileClient() {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input {...field} disabled />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

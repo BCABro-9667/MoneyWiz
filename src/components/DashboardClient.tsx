@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Landmark, Plus, Trash2, Edit, User, LogOut } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -97,11 +97,31 @@ const SkeletonCard = () => (
     </Card>
 );
 
+interface User {
+    avatar?: string;
+}
+
 export default function DashboardClient() {
   const { expenses, addExpense, isLoaded, deleteExpense, updateExpense } = useExpenses();
   const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
   const router = useRouter();
   const { toast } = useToast();
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    async function fetchUser() {
+      try {
+        const response = await fetch('/api/auth/user');
+        if (response.ok) {
+          const userData = await response.json();
+          setUser(userData);
+        }
+      } catch (error) {
+        console.error('Failed to fetch user on dashboard');
+      }
+    }
+    fetchUser();
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -130,7 +150,7 @@ export default function DashboardClient() {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-10 w-10 rounded-full">
                    <Avatar className="h-10 w-10">
-                    <AvatarImage src="/avatar.png" alt="User" />
+                    <AvatarImage src={user?.avatar || "/avatar.png"} alt="User" />
                     <AvatarFallback><User/></AvatarFallback>
                   </Avatar>
                 </Button>

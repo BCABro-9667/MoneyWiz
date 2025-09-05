@@ -34,9 +34,9 @@ export async function PUT(request: NextRequest) {
             return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
         }
 
-        const { name, email } = await request.json();
+        const { name, avatar } = await request.json();
 
-        if (!name && !email) {
+        if (!name && !avatar) {
             return NextResponse.json({ message: 'No fields to update' }, { status: 400 });
         }
 
@@ -47,13 +47,7 @@ export async function PUT(request: NextRequest) {
         }
 
         if (name) user.name = name;
-        if (email) {
-            const existingUser = await User.findOne({ email });
-            if (existingUser && existingUser._id.toString() !== userId) {
-                return NextResponse.json({ message: 'Email already in use' }, { status: 409 });
-            }
-            user.email = email;
-        }
+        if (avatar) user.avatar = avatar;
 
         await user.save();
 
