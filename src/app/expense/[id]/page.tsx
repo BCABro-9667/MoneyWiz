@@ -15,14 +15,13 @@ export default function ExpensePage() {
   const params = useParams();
   const router = useRouter();
   const id = params.id as string;
-  const { getExpenseById } = useExpenses();
+  const { getExpenseById, expenses, isLoaded: areExpensesLoaded } = useExpenses();
   
   const [expense, setExpense] = useState<Expense | undefined | null>(undefined);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchExpense = async () => {
-        setIsLoaded(false);
         try {
             const response = await fetch(`/api/expenses/${id}`);
             if(response.status === 404) {
@@ -33,45 +32,58 @@ export default function ExpensePage() {
                 throw new Error('Failed to fetch expense');
             }
             const data = await response.json();
-            setExpense({...data, id: data._id});
+            // The API returns _id, but our components use id.
+            setExpense({...data, id: data._id, expenditures: data.expenditures?.map((e: any) => ({...e, id: e._id})) || [] });
         } catch (error) {
             console.error(error);
             setExpense(null);
         } finally {
-            setIsLoaded(true);
+            setIsLoading(false);
         }
     };
 
     if (id) {
-        // First, try to get from the hook (local state)
+        setIsLoading(true);
+        // First, try to get from the hook (local state) which is faster
         const localExpense = getExpenseById(id);
         if(localExpense) {
             setExpense(localExpense);
-            setIsLoaded(true);
-        } else {
-           // If not found, fetch from API
+            setIsLoading(false);
+        } else if (areExpensesLoaded) {
+           // If not found in local state and the initial load is complete,
+           // it means we need to fetch it directly or it doesn't exist.
            fetchExpense();
         }
     }
-  }, [id, getExpenseById]);
+  }, [id, getExpenseById, areExpensesLoaded]); // Depend on areExpensesLoaded
+
+  // This effect will run if the expense is updated in the global state (e.g., by the hook)
+  useEffect(() => {
+    if (id) {
+        const updatedExpense = getExpenseById(id);
+        if (updatedExpense) {
+            setExpense(updatedExpense);
+        }
+    }
+  }, [id, expenses, getExpenseById]);
 
 
-  if (!isLoaded || expense === undefined) {
+  if (isLoading) {
     return (
       <div className="p-6 space-y-8">
-        <header className="flex items-center justify-between">
-           <Skeleton className="h-8 w-48" />
-           <Skeleton className="h-10 w-24" />
+        <header className="bg-primary text-primary-foreground p-8 rounded-bl-[50px] rounded-br-[50px] shadow-lg relative">
+            <div className="flex items-center justify-between">
+                 <Skeleton className="h-8 w-48" />
+                 <Skeleton className="h-10 w-44 rounded-full" />
+            </div>
         </header>
-        <div className="space-y-4">
-            <Skeleton className="h-12 w-1/2" />
-            <Skeleton className="h-8 w-1/4" />
-        </div>
-        <div className="space-y-4">
-            <Skeleton className="h-40 w-full rounded-[50px]" />
-        </div>
-         <div className="space-y-4">
-            <Skeleton className="h-64 w-full rounded-[50px]" />
+        <div className="p-6 space-y-8">
+            <div className="space-y-4">
+                <Skeleton className="h-40 w-full rounded-[50px]" />
+            </div>
+            <div className="space-y-4">
+                <Skeleton className="h-64 w-full rounded-[50px]" />
+            </div>
         </div>
       </div>
     );

@@ -16,9 +16,19 @@ export function useExpenses() {
   const fetchExpenses = useCallback(async () => {
     try {
       const response = await fetch('/api/expenses');
+      if(response.status === 401) {
+        // Don't show an error, the middleware will redirect to login
+        setIsLoaded(true);
+        return;
+      }
       if (!response.ok) throw new Error('Failed to fetch expenses');
       const data = await response.json();
-      setExpenses(data);
+      const formattedExpenses = data.map((exp: any) => ({
+        ...exp,
+        id: exp._id,
+        expenditures: exp.expenditures.map((e: any) => ({...e, id: e._id}))
+      }));
+      setExpenses(formattedExpenses);
     } catch (error: any) {
       toast({ variant: 'destructive', title: 'Error', description: error.message });
       setExpenses([]);
@@ -40,7 +50,7 @@ export function useExpenses() {
       });
       if (!response.ok) throw new Error('Failed to add expense');
       const newExpense = await response.json();
-      setExpenses(prev => [{...newExpense, id: newExpense._id}, ...prev]);
+      setExpenses(prev => [{...newExpense, id: newExpense._id, expenditures: []}, ...prev]);
       router.push(`/expense/${newExpense._id}`);
     } catch (error: any) {
       toast({ variant: 'destructive', title: 'Error', description: error.message });
@@ -56,7 +66,8 @@ export function useExpenses() {
       });
       if (!response.ok) throw new Error('Failed to update expense');
       const updatedExpense = await response.json();
-      setExpenses(prev => prev.map(exp => (exp.id === id ? { ...exp, ...updatedExpense, id: updatedExpense._id } : exp)));
+      setExpenses(prev => prev.map(exp => (exp.id === id ? { ...exp, ...updatedData } : exp)));
+      toast({ title: 'Success', description: 'Expense updated.' });
     } catch (error: any) {
       toast({ variant: 'destructive', title: 'Error', description: error.message });
     }
@@ -113,19 +124,19 @@ export function useExpenses() {
         });
         if (!response.ok) throw new Error('Failed to update expenditure');
         const updatedExpenditure = await response.json();
-
+        
         setExpenses(prev =>
-            prev.map(exp =>
-                exp.id === expenseId
-                    ? {
-                        ...exp,
-                        expenditures: exp.expenditures.map(expen =>
-                            expen.id === expenditureId ? { ...expen, ...updatedExpenditure, id: updatedExpenditure._id } : expen
-                        ),
-                    }
-                    : exp
-            )
+            prev.map(exp => {
+                if (exp.id === expenseId) {
+                    const newExpenditures = exp.expenditures.map(expen =>
+                        (expen._id || expen.id) === expenditureId ? { ...expen, ...updatedData, id: expen.id, _id: expen._id } : expen
+                    );
+                    return {...exp, expenditures: newExpenditures};
+                }
+                return exp;
+            })
         );
+        toast({title: 'Success', description: 'Expenditure updated.'});
     } catch (error: any) {
         toast({ variant: 'destructive', title: 'Error', description: error.message });
     }
@@ -142,7 +153,7 @@ export function useExpenses() {
         setExpenses(prev =>
             prev.map(exp =>
                 exp.id === expenseId
-                    ? { ...exp, expenditures: exp.expenditures.filter(expen => expen.id !== expenditureId) }
+                    ? { ...exp, expenditures: exp.expenditures.filter(expen => (expen._id || expen.id) !== expenditureId) }
                     : exp
             )
         );
