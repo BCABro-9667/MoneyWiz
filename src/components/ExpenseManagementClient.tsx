@@ -47,41 +47,40 @@ export default function ExpenseManagementClient({ expense }: { expense: Expense 
   return (
     <>
       <div className="min-h-screen w-full print:hidden">
-        <header className="p-6 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Landmark className="h-8 w-8 text-primary" />
-            <h1 className="text-2xl font-bold font-headline">MoneyWiz</h1>
+        <header className="bg-primary text-primary-foreground p-8 rounded-bl-[50px] rounded-br-[50px] shadow-lg">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-2">
+                <Landmark className="h-8 w-8" />
+                <h1 className="text-2xl font-bold font-headline">MoneyWiz</h1>
+            </div>
+            <Link href="/" passHref>
+                <Button variant="outline" className="rounded-full bg-primary-foreground text-primary">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back to Dashboard
+                </Button>
+            </Link>
           </div>
-          <Link href="/" passHref>
-            <Button variant="outline" className="rounded-full">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Dashboard
+          
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-3xl font-bold font-headline">{expense.name}</h2>
+            <Button variant="ghost" size="icon" className="rounded-full text-primary-foreground hover:bg-primary-foreground/20" onClick={() => setIsEditModalOpen(true)}>
+                <Edit className="h-5 w-5"/>
             </Button>
-          </Link>
+          </div>
+
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-center md:text-left">
+              <div>
+                  <p className="text-sm text-primary-foreground/80">Total Amount</p>
+                  <p className="text-2xl font-semibold">{formatCurrency(expense.amount)}</p>
+              </div>
+              <div>
+                  <p className="text-sm text-primary-foreground/80">Current Balance</p>
+                  <p className={`text-2xl font-semibold ${currentBalance < 0 ? 'text-destructive' : 'text-white'}`}>{formatCurrency(currentBalance)}</p>
+              </div>
+          </div>
         </header>
 
         <main className="p-6 space-y-8">
-          <Card className="rounded-[50px] shadow-lg overflow-hidden">
-            <div className="bg-card-foreground/5 p-8">
-              <div className="flex justify-between items-center">
-                <h2 className="text-3xl font-bold font-headline text-foreground">{expense.name}</h2>
-                <Button variant="ghost" size="icon" className="rounded-full" onClick={() => setIsEditModalOpen(true)}>
-                    <Edit className="h-5 w-5"/>
-                </Button>
-              </div>
-              <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-center md:text-left">
-                  <div>
-                      <p className="text-sm text-muted-foreground">Total Amount</p>
-                      <p className="text-2xl font-semibold">{formatCurrency(expense.amount)}</p>
-                  </div>
-                  <div>
-                      <p className="text-sm text-muted-foreground">Current Balance</p>
-                      <p className={`text-2xl font-semibold ${currentBalance < 0 ? 'text-destructive' : 'text-primary'}`}>{formatCurrency(currentBalance)}</p>
-                  </div>
-              </div>
-            </div>
-          </Card>
-
           <Card className="rounded-[50px] shadow-lg p-8">
             <h3 className="text-xl font-semibold mb-4">Add Expenditure</h3>
             <ExpenditureForm

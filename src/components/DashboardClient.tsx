@@ -99,19 +99,20 @@ export default function DashboardClient() {
   return (
     <>
       <div className="min-h-screen w-full">
-        <header className="p-6 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Landmark className="h-8 w-8 text-primary" />
-            <h1 className="text-2xl font-bold font-headline">MoneyWiz</h1>
+        <header className="bg-primary text-primary-foreground p-8 rounded-bl-[50px] rounded-br-[50px] shadow-lg">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-2">
+                <Landmark className="h-8 w-8" />
+                <h1 className="text-2xl font-bold font-headline">MoneyWiz</h1>
+            </div>
+          </div>
+          <div>
+            <h2 className="text-xl font-semibold mb-4 text-primary-foreground/90">Quick Add Expense</h2>
+            <NewExpenseForm onAddExpense={addExpense} />
           </div>
         </header>
 
         <main className="p-6 space-y-8">
-          <Card className="rounded-[50px] shadow-lg p-8">
-            <h2 className="text-xl font-semibold mb-4">Quick Add Expense</h2>
-            <NewExpenseForm onAddExpense={addExpense} />
-          </Card>
-
           <div className="space-y-4">
             <h2 className="text-2xl font-bold">Your Expenses</h2>
             {isLoaded ? (
