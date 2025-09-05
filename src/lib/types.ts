@@ -1,5 +1,7 @@
+
 export interface Expenditure {
   id: string;
+  _id?: string;
   amount: number;
   name: string;
   description: string;
@@ -8,8 +10,10 @@ export interface Expenditure {
 
 export interface Expense {
   id: string;
+  _id?: string;
   amount: number;
   name: string;
   expenditures: Expenditure[];
   createdAt: string;
+  userId: string;
 }

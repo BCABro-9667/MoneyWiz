@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useMemo } from 'react';
@@ -16,7 +17,7 @@ export default function RecentTransactionsTable() {
   const recentTransactions = useMemo(() => {
     if (!isLoaded) return [];
     return expenses
-      .flatMap(expense => expense.expenditures.map(expenditure => ({ ...expenditure, expenseName: expense.name })))
+      .flatMap(expense => (expense.expenditures || []).map(expenditure => ({ ...expenditure, expenseName: expense.name })))
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
       .slice(0, 5);
   }, [expenses, isLoaded]);
@@ -39,7 +40,7 @@ export default function RecentTransactionsTable() {
             {isLoaded ? (
               recentTransactions.length > 0 ? (
                 recentTransactions.map(t => (
-                  <TableRow key={t.id}>
+                  <TableRow key={t._id || t.id}>
                     <TableCell>
                       <div className="font-medium">{t.name}</div>
                       <div className="text-sm text-muted-foreground">{formatDate(t.date)}</div>

@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useMemo, useState } from 'react';
@@ -17,21 +18,22 @@ import PrintView from './PrintView';
 const formatCurrency = (amount: number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(amount);
 
 export default function ExpenseManagementClient({ expense }: { expense: Expense }) {
-  const { updateExpense, addExpenditure, updateExpenditure, deleteExpenditure } = useExpenses();
+  const { addExpenditure, updateExpenditure, deleteExpenditure, updateExpense } = useExpenses();
   const [searchQuery, setSearchQuery] = useState('');
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const currentBalance = useMemo(() => {
-    const totalExpenditures = expense.expenditures.reduce((sum, item) => sum + item.amount, 0);
+    const totalExpenditures = (expense.expenditures || []).reduce((sum, item) => sum + item.amount, 0);
     return expense.amount - totalExpenditures;
   }, [expense]);
 
   const filteredExpenditures = useMemo(() => {
-    if (!searchQuery) return expense.expenditures;
-    return expense.expenditures.filter(
+    const expenditures = expense.expenditures || [];
+    if (!searchQuery) return expenditures;
+    return expenditures.filter(
       item =>
         item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.description.toLowerCase().includes(searchQuery.toLowerCase())
+        (item.description && item.description.toLowerCase().includes(searchQuery.toLowerCase()))
     );
   }, [expense.expenditures, searchQuery]);
 
@@ -43,6 +45,10 @@ export default function ExpenseManagementClient({ expense }: { expense: Expense 
     updateExpense(id, data);
     setIsEditModalOpen(false);
   }
+  
+  const onAddExpenditure = (data: Omit<Expenditure, 'id' | 'date'>) => {
+    addExpenditure(expense.id, data);
+  };
 
   return (
     <>
@@ -85,7 +91,7 @@ export default function ExpenseManagementClient({ expense }: { expense: Expense 
             <h3 className="text-xl font-semibold mb-4">Add Expenditure</h3>
             <ExpenditureForm
               expenseId={expense.id}
-              onAddExpenditure={(data) => addExpenditure(expense.id, data)}
+              onAddExpenditure={onAddExpenditure}
             />
           </Card>
 

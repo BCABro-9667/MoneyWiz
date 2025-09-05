@@ -1,12 +1,12 @@
+
 'use client';
 
 import { useMemo } from 'react';
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useExpenses } from '@/hooks/use-expenses';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { Skeleton } from './ui/skeleton';
-
 
 const formatCurrency = (amount: number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(amount);
 
@@ -31,14 +31,14 @@ export default function ExpenseSummaryChart() {
     const recentExpenses = sortedExpenses.slice(0, 5);
     
     return recentExpenses.map(expense => {
-      const totalExpenditures = expense.expenditures.reduce((sum, item) => sum + item.amount, 0);
+      const totalExpenditures = (expense.expenditures || []).reduce((sum, item) => sum + item.amount, 0);
       const currentBalance = expense.amount - totalExpenditures;
       return {
         name: expense.name,
         total: expense.amount,
         current: currentBalance,
       };
-    }).reverse(); // Reverse to show oldest of the 5 first
+    }).reverse();
   }, [expenses, isLoaded]);
 
   if (!isLoaded) {

@@ -1,7 +1,7 @@
+
 'use client';
 
 import React, { useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
 import { Edit, Trash2 } from 'lucide-react';
 import type { Expenditure } from '@/lib/types';
 import { Button } from '@/components/ui/button';
@@ -41,7 +41,7 @@ export default function ExpenditureList({
 }: ExpenditureListProps) {
   const [editingExpenditure, setEditingExpenditure] = useState<Expenditure | null>(null);
 
-  if (expenditures.length === 0) {
+  if (!expenditures || expenditures.length === 0) {
     return <p className="text-muted-foreground text-center py-8">No expenditures recorded for this expense yet.</p>;
   }
 
@@ -54,7 +54,7 @@ export default function ExpenditureList({
     <>
       <Accordion type="single" collapsible className="w-full">
         {expenditures.map((item) => (
-          <AccordionItem value={item.id} key={item.id} className="border-b last:border-b-0">
+          <AccordionItem value={item._id || item.id} key={item._id || item.id} className="border-b last:border-b-0">
              <div className="group flex items-center justify-between p-4 hover:bg-muted/50 transition-colors">
                 <AccordionTrigger className="flex-1 hover:no-underline p-0">
                     <div className="flex items-center justify-between w-full">
@@ -82,7 +82,7 @@ export default function ExpenditureList({
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
                                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction onClick={() => onDeleteExpenditure(expenseId, item.id)}>
+                                <AlertDialogAction onClick={() => onDeleteExpenditure(expenseId, item._id || item.id)}>
                                     Delete
                                 </AlertDialogAction>
                                 </AlertDialogFooter>

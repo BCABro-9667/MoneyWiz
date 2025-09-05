@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useForm } from 'react-hook-form';
@@ -41,7 +42,7 @@ export default function EditExpenditureModal({ expenditure, isOpen, onClose, onS
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    onSave(expenditure.id, { ...values, description: values.description || '' });
+    onSave(expenditure._id || expenditure.id, { ...values, description: values.description || '' });
   }
 
   return (

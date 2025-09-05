@@ -1,8 +1,10 @@
+
 'use client';
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Landmark, Plus, Trash2, Edit, MoreVertical } from 'lucide-react';
+import { Landmark, Plus, Trash2, Edit, User, LogOut } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 import { useExpenses } from '@/hooks/use-expenses';
 import type { Expense } from '@/lib/types';
@@ -13,7 +15,9 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from '@/components/ui/skeleton';
 import NewExpenseForm from '@/components/NewExpenseForm';
 import RecentTransactionsTable from '@/components/RecentTransactionsTable';
@@ -30,6 +34,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import ExpenseSummaryChart from './ExpenseSummaryChart';
+import { useToast } from '@/hooks/use-toast';
 
 const formatCurrency = (amount: number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(amount);
 
@@ -44,7 +49,7 @@ const ExpenseCard = ({ expense, onEdit, onDelete }: { expense: Expense, onEdit: 
             </div>
         </div>
         <p className="text-sm text-muted-foreground mt-2">
-          {expense.expenditures.length} expenditure(s)
+          {expense.expenditures?.length || 0} expenditure(s)
         </p>
       </Link>
       <div className="flex items-center justify-end gap-2 mt-4">
@@ -95,6 +100,22 @@ const SkeletonCard = () => (
 export default function DashboardClient() {
   const { expenses, addExpense, isLoaded, deleteExpense, updateExpense } = useExpenses();
   const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
+  const router = useRouter();
+  const { toast } = useToast();
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('/api/auth/logout', { method: 'POST' });
+      if (response.ok) {
+        toast({ title: 'Logged out successfully' });
+        router.push('/login');
+      } else {
+        throw new Error('Logout failed');
+      }
+    } catch (error: any) {
+      toast({ variant: 'destructive', title: 'Error', description: error.message });
+    }
+  };
 
   return (
     <>
@@ -105,6 +126,22 @@ export default function DashboardClient() {
                 <Landmark className="h-8 w-8" />
                 <h1 className="text-2xl font-bold font-headline">MoneyWiz</h1>
             </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                   <Avatar className="h-10 w-10">
+                    <AvatarImage src="/avatar.png" alt="User" />
+                    <AvatarFallback><User/></AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="end" forceMount>
+                <DropdownMenuItem onClick={handleLogout}>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Log out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
           <div>
             <h2 className="text-xl font-semibold mb-4 text-primary-foreground/90">Quick Add Expense</h2>

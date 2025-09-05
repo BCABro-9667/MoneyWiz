@@ -1,138 +1,162 @@
+
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import type { Expense, Expenditure } from '@/lib/types';
 import { useRouter } from 'next/navigation';
+import { useToast } from './use-toast';
+import type { Expense, Expenditure } from '@/lib/types';
 
-const MOCK_EXPENSES: Expense[] = [
-  {
-    id: 'exp-1',
-    name: 'Monthly Groceries',
-    amount: 25000,
-    createdAt: new Date(new Date().setDate(new Date().getDate() - 5)).toISOString(),
-    expenditures: [
-      { id: 'expend-1-1', name: 'Vegetables', amount: 2000, description: 'From local market', date: new Date(new Date().setDate(new Date().getDate() - 4)).toISOString() },
-      { id: 'expend-1-2', name: 'Milk and Bread', amount: 500, description: 'Daily needs', date: new Date(new Date().setDate(new Date().getDate() - 3)).toISOString() },
-    ],
-  },
-  {
-    id: 'exp-2',
-    name: 'Weekend Trip',
-    amount: 15000,
-    createdAt: new Date(new Date().setDate(new Date().getDate() - 10)).toISOString(),
-    expenditures: [
-      { id: 'expend-2-1', name: 'Fuel', amount: 3000, description: 'Full tank', date: new Date(new Date().setDate(new Date().getDate() - 9)).toISOString() },
-      { id: 'expend-2-2', name: 'Hotel Stay', amount: 7000, description: '2 nights', date: new Date(new Date().setDate(new Date().getDate() - 9)).toISOString() },
-      { id: 'expend-2-3', name: 'Food', amount: 4000, description: 'Meals for 2 days', date: new Date(new Date().setDate(new Date().getDate() - 8)).toISOString() },
-    ],
-  },
-];
-
-const LOCAL_STORAGE_KEY = 'moneywiz-expenses';
 
 export function useExpenses() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const router = useRouter();
+  const { toast } = useToast();
 
-  useEffect(() => {
+  const fetchExpenses = useCallback(async () => {
     try {
-      const item = window.localStorage.getItem(LOCAL_STORAGE_KEY);
-      if (item) {
-        setExpenses(JSON.parse(item));
-      } else {
-        setExpenses(MOCK_EXPENSES);
-      }
-    } catch (error) {
-      console.error("Failed to load expenses from localStorage", error);
-      setExpenses(MOCK_EXPENSES);
+      const response = await fetch('/api/expenses');
+      if (!response.ok) throw new Error('Failed to fetch expenses');
+      const data = await response.json();
+      setExpenses(data);
+    } catch (error: any) {
+      toast({ variant: 'destructive', title: 'Error', description: error.message });
+      setExpenses([]);
     } finally {
       setIsLoaded(true);
     }
-  }, []);
+  }, [toast]);
 
   useEffect(() => {
-    if (isLoaded) {
-      try {
-        window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(expenses));
-      } catch (error) {
-        console.error("Failed to save expenses to localStorage", error);
-      }
+    fetchExpenses();
+  }, [fetchExpenses]);
+
+  const addExpense = useCallback(async (name: string, amount: number) => {
+    try {
+      const response = await fetch('/api/expenses', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, amount }),
+      });
+      if (!response.ok) throw new Error('Failed to add expense');
+      const newExpense = await response.json();
+      setExpenses(prev => [{...newExpense, id: newExpense._id}, ...prev]);
+      router.push(`/expense/${newExpense._id}`);
+    } catch (error: any) {
+      toast({ variant: 'destructive', title: 'Error', description: error.message });
     }
-  }, [expenses, isLoaded]);
+  }, [router, toast]);
 
-  const addExpense = useCallback((name: string, amount: number) => {
-    const newExpense: Expense = {
-      id: `exp-${Date.now()}`,
-      name,
-      amount,
-      createdAt: new Date().toISOString(),
-      expenditures: [],
-    };
-    setExpenses(prev => [newExpense, ...prev]);
-    router.push(`/expense/${newExpense.id}`);
-  }, [router]);
+  const updateExpense = useCallback(async (id: string, updatedData: Partial<Pick<Expense, 'name' | 'amount'>>) => {
+     try {
+      const response = await fetch(`/api/expenses/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedData),
+      });
+      if (!response.ok) throw new Error('Failed to update expense');
+      const updatedExpense = await response.json();
+      setExpenses(prev => prev.map(exp => (exp.id === id ? { ...exp, ...updatedExpense, id: updatedExpense._id } : exp)));
+    } catch (error: any) {
+      toast({ variant: 'destructive', title: 'Error', description: error.message });
+    }
+  }, [toast]);
 
-  const updateExpense = useCallback((id: string, updatedData: Partial<Pick<Expense, 'name' | 'amount'>>) => {
-    setExpenses(prev =>
-      prev.map(exp => (exp.id === id ? { ...exp, ...updatedData } : exp))
-    );
-  }, []);
-
-  const deleteExpense = useCallback((id: string) => {
-    setExpenses(prev => prev.filter(exp => exp.id !== id));
-  }, []);
+  const deleteExpense = useCallback(async (id: string) => {
+    try {
+      const response = await fetch(`/api/expenses/${id}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) throw new Error('Failed to delete expense');
+      setExpenses(prev => prev.filter(exp => exp.id !== id));
+      toast({ title: 'Success', description: 'Expense deleted successfully.' });
+    } catch (error: any) {
+      toast({ variant: 'destructive', title: 'Error', description: error.message });
+    }
+  }, [toast]);
 
   const getExpenseById = useCallback((id: string) => {
     return expenses.find(exp => exp.id === id);
   }, [expenses]);
+  
+  const addExpenditure = useCallback(async (expenseId: string, data: Omit<Expenditure, 'id' | 'date'>) => {
+    try {
+        const response = await fetch(`/api/expenses/${expenseId}/expenditures`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+        });
+        if (!response.ok) throw new Error('Failed to add expenditure');
+        const newExpenditure = await response.json();
 
-  const addExpenditure = useCallback((expenseId: string, data: Omit<Expenditure, 'id' | 'date'>) => {
-    const newExpenditure: Expenditure = {
-      ...data,
-      id: `expend-${Date.now()}`,
-      date: new Date().toISOString(),
-    };
+        setExpenses(prev =>
+            prev.map(exp => {
+                if (exp.id === expenseId) {
+                    const updatedExpenditures = [{ ...newExpenditure, id: newExpenditure._id }, ...(exp.expenditures || [])];
+                    return { ...exp, expenditures: updatedExpenditures };
+                }
+                return exp;
+            })
+        );
+    } catch (error: any) {
+        toast({ variant: 'destructive', title: 'Error', description: error.message });
+    }
+}, [toast]);
 
-    setExpenses(prev =>
-      prev.map(exp =>
-        exp.id === expenseId
-          ? { ...exp, expenditures: [newExpenditure, ...exp.expenditures] }
-          : exp
-      )
-    );
-  }, []);
 
-  const updateExpenditure = useCallback((expenseId: string, expenditureId: string, updatedData: Partial<Omit<Expenditure, 'id' | 'date'>>) => {
-    setExpenses(prev =>
-      prev.map(exp =>
-        exp.id === expenseId
-          ? {
-              ...exp,
-              expenditures: exp.expenditures.map(expen =>
-                expen.id === expenditureId ? { ...expen, ...updatedData } : expen
-              ),
-            }
-          : exp
-      )
-    );
-  }, []);
+  const updateExpenditure = useCallback(async (expenseId: string, expenditureId: string, updatedData: Partial<Omit<Expenditure, 'id' | 'date'>>) => {
+    try {
+        const response = await fetch(`/api/expenses/${expenseId}/expenditures/${expenditureId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatedData),
+        });
+        if (!response.ok) throw new Error('Failed to update expenditure');
+        const updatedExpenditure = await response.json();
 
-  const deleteExpenditure = useCallback((expenseId: string, expenditureId: string) => {
-    setExpenses(prev =>
-      prev.map(exp =>
-        exp.id === expenseId
-          ? { ...exp, expenditures: exp.expenditures.filter(expen => expen.id !== expenditureId) }
-          : exp
-      )
-    );
-  }, []);
+        setExpenses(prev =>
+            prev.map(exp =>
+                exp.id === expenseId
+                    ? {
+                        ...exp,
+                        expenditures: exp.expenditures.map(expen =>
+                            expen.id === expenditureId ? { ...expen, ...updatedExpenditure, id: updatedExpenditure._id } : expen
+                        ),
+                    }
+                    : exp
+            )
+        );
+    } catch (error: any) {
+        toast({ variant: 'destructive', title: 'Error', description: error.message });
+    }
+}, [toast]);
+
+
+  const deleteExpenditure = useCallback(async (expenseId: string, expenditureId: string) => {
+    try {
+        const response = await fetch(`/api/expenses/${expenseId}/expenditures/${expenditureId}`, {
+            method: 'DELETE',
+        });
+        if (!response.ok) throw new Error('Failed to delete expenditure');
+        
+        setExpenses(prev =>
+            prev.map(exp =>
+                exp.id === expenseId
+                    ? { ...exp, expenditures: exp.expenditures.filter(expen => expen.id !== expenditureId) }
+                    : exp
+            )
+        );
+        toast({ title: 'Success', description: 'Expenditure deleted successfully.' });
+    } catch (error: any) {
+        toast({ variant: 'destructive', title: 'Error', description: error.message });
+    }
+  }, [toast]);
   
   const getAllExpenditures = useCallback(() => {
     return expenses.flatMap(expense => 
-      expense.expenditures.map(expenditure => ({
+      (expense.expenditures || []).map(expenditure => ({
         ...expenditure,
-        category: expense.name // Using expense name as category
+        category: expense.name
       }))
     );
   }, [expenses]);

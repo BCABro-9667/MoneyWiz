@@ -1,3 +1,4 @@
+
 import type { Expense } from "@/lib/types";
 import { Separator } from "./ui/separator";
 
@@ -9,6 +10,7 @@ interface PrintViewProps {
 }
 
 export default function PrintView({ expense, currentBalance }: PrintViewProps) {
+    const expenditures = expense.expenditures || [];
     return (
         <div className="hidden print:block p-8 font-sans">
             <header className="mb-8 text-center">
@@ -45,8 +47,8 @@ export default function PrintView({ expense, currentBalance }: PrintViewProps) {
                     </tr>
                 </thead>
                 <tbody>
-                    {expense.expenditures.length > 0 ? (
-                        expense.expenditures.map((item, index) => (
+                    {expenditures.length > 0 ? (
+                        expenditures.map((item, index) => (
                             <tr key={item.id} className="border-b">
                                 <td className="p-2 text-gray-600">{index + 1}</td>
                                 <td className="p-2">{item.name}</td>
