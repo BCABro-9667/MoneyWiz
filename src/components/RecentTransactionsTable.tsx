@@ -18,13 +18,13 @@ export default function RecentTransactionsTable() {
     return expenses
       .flatMap(expense => expense.expenditures.map(expenditure => ({ ...expenditure, expenseName: expense.name })))
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-      .slice(0, 10);
+      .slice(0, 5);
   }, [expenses, isLoaded]);
 
   return (
     <Card className="rounded-[50px] shadow-lg">
       <CardHeader>
-        <CardTitle>Top 10 Recent Transactions</CardTitle>
+        <CardTitle>Top 5 Recent Transactions</CardTitle>
       </CardHeader>
       <CardContent>
         <Table>
