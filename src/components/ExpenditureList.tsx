@@ -52,41 +52,43 @@ export default function ExpenditureList({
 
   return (
     <>
-      <Accordion type="single" collapsible className="w-full space-y-2">
+      <Accordion type="single" collapsible className="w-full">
         {expenditures.map((item) => (
-          <AccordionItem value={item.id} key={item.id} className="border-b-0">
-             <div className="group flex items-center justify-between p-4 rounded-3xl bg-background hover:bg-card-foreground/5 transition-colors">
+          <AccordionItem value={item.id} key={item.id} className="border-b last:border-b-0">
+             <div className="group flex items-center justify-between p-4 hover:bg-muted/50 transition-colors">
                 <AccordionTrigger className="flex-1 hover:no-underline p-0">
                     <div className="flex items-center justify-between w-full">
                         <span className="font-medium">{item.name}</span>
-                        <span className="text-muted-foreground">{formatCurrency(item.amount)}</span>
                     </div>
                 </AccordionTrigger>
-                <div className="flex items-center gap-2 ml-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Button variant="ghost" size="icon" className="rounded-full h-8 w-8" onClick={() => setEditingExpenditure(item)}>
-                        <Edit className="h-4 w-4" />
-                    </Button>
-                    <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                            <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive hover:bg-destructive/10 rounded-full h-8 w-8">
-                                <Trash2 className="h-4 w-4" />
-                            </Button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                            <AlertDialogHeader>
-                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                            <AlertDialogDescription>
-                                This will permanently delete the expenditure "{item.name}".
-                            </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction onClick={() => onDeleteExpenditure(expenseId, item.id)}>
-                                Delete
-                            </AlertDialogAction>
-                            </AlertDialogFooter>
-                        </AlertDialogContent>
-                    </AlertDialog>
+                <div className="flex items-center gap-2 ml-4">
+                    <span className="text-muted-foreground font-medium">{formatCurrency(item.amount)}</span>
+                    <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Button variant="ghost" size="icon" className="rounded-full h-8 w-8" onClick={() => setEditingExpenditure(item)}>
+                            <Edit className="h-4 w-4" />
+                        </Button>
+                        <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                                <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive hover:bg-destructive/10 rounded-full h-8 w-8">
+                                    <Trash2 className="h-4 w-4" />
+                                </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    This will permanently delete the expenditure "{item.name}".
+                                </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={() => onDeleteExpenditure(expenseId, item.id)}>
+                                    Delete
+                                </AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
+                    </div>
                 </div>
             </div>
             <AccordionContent className="px-6 pb-4 text-muted-foreground">
