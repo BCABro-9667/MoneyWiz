@@ -17,7 +17,6 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 import NewExpenseForm from '@/components/NewExpenseForm';
 import RecentTransactionsTable from '@/components/RecentTransactionsTable';
-import AIInsights from '@/components/AIInsights';
 import EditExpenseModal from './EditExpenseModal';
 import {
   AlertDialog,
@@ -30,6 +29,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import ExpenseSummaryChart from './ExpenseSummaryChart';
 
 const formatCurrency = (amount: number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(amount);
 
@@ -141,7 +141,7 @@ export default function DashboardClient() {
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <RecentTransactionsTable />
-            <AIInsights />
+            <ExpenseSummaryChart />
           </div>
 
         </main>
