@@ -115,20 +115,24 @@ export default function DashboardClient() {
         if (response.ok) {
           const userData = await response.json();
           setUser(userData);
+        } else if (response.status === 401) {
+          router.push('/');
         }
       } catch (error) {
         console.error('Failed to fetch user on dashboard');
+        router.push('/');
       }
     }
     fetchUser();
-  }, []);
+  }, [router]);
 
   const handleLogout = async () => {
     try {
       const response = await fetch('/api/auth/logout', { method: 'POST' });
       if (response.ok) {
         toast({ title: 'Logged out successfully' });
-        router.push('/login');
+        router.push('/');
+        router.refresh();
       } else {
         throw new Error('Logout failed');
       }

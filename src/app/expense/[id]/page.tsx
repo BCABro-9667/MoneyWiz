@@ -28,6 +28,10 @@ export default function ExpensePage() {
               setExpense(null);
               return;
             }
+             if (response.status === 401) {
+              router.push('/');
+              return;
+            }
             if (!response.ok) {
                 throw new Error('Failed to fetch expense');
             }
@@ -55,7 +59,7 @@ export default function ExpensePage() {
            fetchExpense();
         }
     }
-  }, [id, getExpenseById, areExpensesLoaded]); // Depend on areExpensesLoaded
+  }, [id, getExpenseById, areExpensesLoaded, router]); // Depend on areExpensesLoaded
 
   // This effect will run if the expense is updated in the global state (e.g., by the hook)
   useEffect(() => {
@@ -94,7 +98,7 @@ export default function ExpensePage() {
         <div className="flex flex-col items-center justify-center min-h-screen text-center p-4">
             <h1 className="text-2xl font-bold mb-4">Expense Not Found</h1>
             <p className="text-muted-foreground mb-8">The expense you are looking for does not exist or has been deleted.</p>
-            <Button onClick={() => router.push('/')}>
+            <Button onClick={() => router.push('/dashboard')}>
                 <ArrowLeft className="mr-2 h-4 w-4"/>
                 Back to Dashboard
             </Button>

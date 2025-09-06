@@ -1,4 +1,5 @@
-
+// This page is not used directly, but the logic is repurposed in LoginModal.
+// We'll keep it for now as a fallback or for future direct login functionality.
 'use client';
 
 import { useState } from 'react';
@@ -51,7 +52,7 @@ export default function LoginPage() {
         title: "Success",
         description: "Logged in successfully. Redirecting...",
       });
-      router.push('/');
+      router.push('/dashboard');
 
     } catch (error: any) {
       toast({

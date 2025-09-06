@@ -17,7 +17,7 @@ export function useExpenses() {
     try {
       const response = await fetch('/api/expenses');
       if(response.status === 401) {
-        // Don't show an error, the middleware will redirect to login
+        // The middleware will handle the redirect.
         setIsLoaded(true);
         return;
       }

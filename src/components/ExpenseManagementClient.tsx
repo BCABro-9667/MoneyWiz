@@ -59,7 +59,7 @@ export default function ExpenseManagementClient({ expense }: { expense: Expense 
                 <Landmark className="h-8 w-8" />
                 <h1 className="text-2xl font-bold font-headline">MoneyWiz</h1>
             </div>
-            <Link href="/" passHref>
+            <Link href="/dashboard" passHref>
                 <Button variant="outline" className="rounded-full bg-primary-foreground text-primary">
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Back to Dashboard
