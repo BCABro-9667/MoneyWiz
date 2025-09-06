@@ -140,7 +140,7 @@ export default function DashboardClient() {
   return (
     <>
       <div className="min-h-screen w-full">
-        <header className="bg-primary text-primary-foreground p-8 rounded-bl-[50px] rounded-br-[50px] shadow-lg">
+        <header className="bg-primary text-primary-foreground p-6 md:p-8 rounded-bl-[50px] rounded-br-[50px] shadow-lg">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
                 <Landmark className="h-8 w-8" />
@@ -176,7 +176,7 @@ export default function DashboardClient() {
           </div>
         </header>
 
-        <main className="p-6 space-y-8">
+        <main className="p-4 md:p-6 space-y-8">
           <div className="space-y-4">
             <h2 className="text-2xl font-bold">Your Expenses</h2>
             {isLoaded ? (

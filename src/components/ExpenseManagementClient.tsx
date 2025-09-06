@@ -53,7 +53,7 @@ export default function ExpenseManagementClient({ expense }: { expense: Expense 
   return (
     <>
       <div className="min-h-screen w-full print:hidden">
-        <header className="bg-primary text-primary-foreground p-8 rounded-bl-[50px] rounded-br-[50px] shadow-lg">
+        <header className="bg-primary text-primary-foreground p-6 md:p-8 rounded-bl-[50px] rounded-br-[50px] shadow-lg">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
                 <Landmark className="h-8 w-8" />
@@ -86,8 +86,8 @@ export default function ExpenseManagementClient({ expense }: { expense: Expense 
           </div>
         </header>
 
-        <main className="p-6 space-y-8">
-          <Card className="rounded-[50px] shadow-lg p-8">
+        <main className="p-4 md:p-6 space-y-8">
+          <Card className="rounded-[50px] shadow-lg p-6 md:p-8">
             <h3 className="text-xl font-semibold mb-4">Add Expenditure</h3>
             <ExpenditureForm
               expenseId={expense.id}
@@ -95,7 +95,7 @@ export default function ExpenseManagementClient({ expense }: { expense: Expense 
             />
           </Card>
 
-          <Card className="rounded-[50px] shadow-lg p-8">
+          <Card className="rounded-[50px] shadow-lg p-6 md:p-8">
             <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-4">
               <h3 className="text-xl font-semibold">Expenditures</h3>
               <div className="flex gap-2">
