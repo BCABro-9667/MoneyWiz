@@ -26,7 +26,7 @@ export function useExpenses() {
       const formattedExpenses = data.map((exp: any) => ({
         ...exp,
         id: exp._id,
-        expenditures: exp.expenditures.map((e: any) => ({...e, id: e._id}))
+        expenditures: exp.expenditures?.map((e: any) => ({...e, id: e._id})) || []
       }));
       setExpenses(formattedExpenses);
     } catch (error: any) {
@@ -38,8 +38,11 @@ export function useExpenses() {
   }, [toast]);
 
   useEffect(() => {
-    fetchExpenses();
-  }, [fetchExpenses]);
+    // Only fetch if data isn't loaded yet.
+    if(!isLoaded) {
+      fetchExpenses();
+    }
+  }, [fetchExpenses, isLoaded]);
 
   const addExpense = useCallback(async (name: string, amount: number) => {
     try {
@@ -183,5 +186,6 @@ export function useExpenses() {
     updateExpenditure,
     deleteExpenditure,
     getAllExpenditures,
+    refetchExpenses: fetchExpenses,
   };
 }
