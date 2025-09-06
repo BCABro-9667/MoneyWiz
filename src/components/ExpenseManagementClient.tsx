@@ -87,7 +87,7 @@ export default function ExpenseManagementClient({ expense }: { expense: Expense 
         </header>
 
         <main className="p-4 md:p-6 space-y-8">
-          <Card className="rounded-[50px] shadow-lg p-6 md:p-8">
+          <Card className="rounded-2xl shadow-lg p-6 md:p-8">
             <h3 className="text-xl font-semibold mb-4">Add Expenditure</h3>
             <ExpenditureForm
               expenseId={expense.id}
@@ -95,7 +95,7 @@ export default function ExpenseManagementClient({ expense }: { expense: Expense 
             />
           </Card>
 
-          <Card className="rounded-[50px] shadow-lg p-6 md:p-8">
+          <Card className="rounded-2xl shadow-lg p-6 md:p-8">
             <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-4">
               <h3 className="text-xl font-semibold">Expenditures</h3>
               <div className="flex gap-2">

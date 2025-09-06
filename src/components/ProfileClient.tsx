@@ -129,7 +129,7 @@ export default function ProfileClient() {
   if (isLoading) {
     return (
         <div className="space-y-6">
-            <Card className="rounded-[50px]">
+            <Card className="rounded-2xl">
                 <CardHeader>
                     <Skeleton className="h-8 w-48" />
                     <Skeleton className="h-4 w-64 mt-2" />
@@ -139,7 +139,7 @@ export default function ProfileClient() {
                     <Skeleton className="h-10 w-48" />
                 </CardContent>
             </Card>
-             <Card className="rounded-[50px]">
+             <Card className="rounded-2xl">
                 <CardHeader>
                      <Skeleton className="h-7 w-40" />
                      <Skeleton className="h-4 w-56 mt-2" />
@@ -168,7 +168,7 @@ export default function ProfileClient() {
 
   return (
     <div className="space-y-8">
-      <Card className="rounded-[50px] shadow-lg">
+      <Card className="rounded-2xl shadow-lg">
          <CardHeader>
             <CardTitle>Avatar</CardTitle>
             <CardDescription>Update your profile picture using an image URL.</CardDescription>
@@ -204,7 +204,7 @@ export default function ProfileClient() {
         </CardContent>
       </Card>
 
-      <Card className="rounded-[50px] shadow-lg">
+      <Card className="rounded-2xl shadow-lg">
         <CardHeader>
           <CardTitle>Personal Information</CardTitle>
           <CardDescription>Update your name. Email is not editable.</CardDescription>
@@ -248,7 +248,7 @@ export default function ProfileClient() {
         </CardContent>
       </Card>
 
-      <Card className="rounded-[50px] shadow-lg">
+      <Card className="rounded-2xl shadow-lg">
         <CardHeader>
           <CardTitle>Change Password</CardTitle>
           <CardDescription>Update your password here.</CardDescription>

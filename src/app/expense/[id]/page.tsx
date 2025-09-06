@@ -79,10 +79,10 @@ export default function ExpensePage() {
         </header>
         <div className="p-6 space-y-8">
             <div className="space-y-4">
-                <Skeleton className="h-40 w-full rounded-[50px]" />
+                <Skeleton className="h-40 w-full rounded-2xl" />
             </div>
             <div className="space-y-4">
-                <Skeleton className="h-64 w-full rounded-[50px]" />
+                <Skeleton className="h-64 w-full rounded-2xl" />
             </div>
         </div>
       </div>

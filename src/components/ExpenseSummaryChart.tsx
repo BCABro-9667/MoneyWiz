@@ -43,7 +43,7 @@ export default function ExpenseSummaryChart() {
 
   if (!isLoaded) {
     return (
-        <Card className="rounded-[50px] shadow-lg">
+        <Card className="rounded-2xl shadow-lg">
             <CardHeader>
                 <Skeleton className="h-7 w-48" />
                 <Skeleton className="h-4 w-64 mt-2" />
@@ -56,7 +56,7 @@ export default function ExpenseSummaryChart() {
   }
 
   return (
-    <Card className="rounded-[50px] shadow-lg">
+    <Card className="rounded-2xl shadow-lg">
       <CardHeader>
         <CardTitle>Recent Expense Summary</CardTitle>
         <CardDescription>Total budget vs. current balance for your last 5 expenses.</CardDescription>

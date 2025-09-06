@@ -23,7 +23,7 @@ export default function RecentTransactionsTable() {
   }, [expenses, isLoaded]);
 
   return (
-    <Card className="rounded-[50px] shadow-lg">
+    <Card className="rounded-2xl shadow-lg">
       <CardHeader>
         <CardTitle>Top 5 Recent Transactions</CardTitle>
       </CardHeader>

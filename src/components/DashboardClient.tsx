@@ -39,7 +39,7 @@ import { useToast } from '@/hooks/use-toast';
 const formatCurrency = (amount: number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(amount);
 
 const ExpenseCard = ({ expense, onEdit, onDelete }: { expense: Expense, onEdit: (expense: Expense) => void, onDelete: (expenseId: string) => void }) => (
-  <Card className="rounded-[50px] shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
+  <Card className="rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
     <CardContent className="p-6 flex flex-col justify-between h-full">
       <Link href={`/expense/${expense.id}`} className="block group">
         <div className="flex justify-between items-start">
@@ -84,7 +84,7 @@ const ExpenseCard = ({ expense, onEdit, onDelete }: { expense: Expense, onEdit: 
 );
 
 const SkeletonCard = () => (
-    <Card className="rounded-[50px] shadow-lg">
+    <Card className="rounded-2xl shadow-lg">
         <CardContent className="p-6">
             <Skeleton className="h-8 w-3/4 mb-2" />
             <Skeleton className="h-6 w-1/2 mb-4" />
@@ -192,7 +192,7 @@ export default function DashboardClient() {
                   ))}
                 </div>
               ) : (
-                <Card className="rounded-[50px] shadow-lg p-8 text-center">
+                <Card className="rounded-2xl shadow-lg p-8 text-center">
                   <p className="text-muted-foreground">No expenses yet. Add one to get started!</p>
                 </Card>
               )
