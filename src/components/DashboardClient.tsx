@@ -149,7 +149,7 @@ export default function DashboardClient() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                   <Avatar className="h-10 w-10">
+                   <Avatar className="h-10 w-10 ring-2 ring-white">
                     <AvatarImage src={user?.avatar || "/avatar.png"} alt="User" />
                     <AvatarFallback><User/></AvatarFallback>
                   </Avatar>
