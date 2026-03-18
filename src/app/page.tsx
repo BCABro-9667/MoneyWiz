@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -38,7 +37,7 @@ const FeatureCard = ({ img, title, description }: { img: any, title: string, des
         <motion.div ref={ref} initial="hidden" animate={controls} variants={cardVariants} className="h-full">
             <Card className="bg-background/50 backdrop-blur-sm border-primary/20 hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-2 rounded-2xl shadow-lg hover:shadow-primary/20 h-full flex flex-col text-center">
                 <CardContent className="p-6 flex flex-col flex-grow items-center">
-                    <Image src={img} alt={title} width={80} height={80} className="mb-6" />
+                    <Image src={img} alt={title} width={150} height={150} className="mb-6" />
                     <CardTitle className="text-xl font-bold text-foreground mb-2">{title}</CardTitle>
                     <p className="text-muted-foreground">{description}</p>
                 </CardContent>
