@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -143,7 +144,7 @@ export default function LandingPage() {
 
             <main>
                 {/* Home Section */}
-                <SectionWrapper id="home" className="pt-32 md:pt-48 -mt-20">
+                <section id="home" className="pt-32 md:pt-48 -mt-20 py-16 md:py-24 px-4 md:px-8">
                      <div className="container mx-auto grid md:grid-cols-2 gap-12 items-center">
                         <motion.div 
                             initial={{ opacity: 0, x: -50 }} 
@@ -169,13 +170,13 @@ export default function LandingPage() {
                             <Image src={hero} alt="Dashboard preview" width={800} height={300} className="" />
                         </motion.div>
                     </div>
-                </SectionWrapper>
+                </section>
                 
                 {/* About Section */}
                 <SectionWrapper id="about" className="container mx-auto">
                     <div className="grid md:grid-cols-2 gap-12 items-center">
                         <div>
-                             <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.2 }}>
+                             <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.2 }}>
                                 <img src="https://videos.openai.com/az/vg-assets/task_01kkzewr1efcstr5x0vegxhxac%2F1773803590_img_3.webp?se=2026-03-20T00%3A00%3A00Z&sp=r&sv=2026-02-06&sr=b&skoid=3d249c53-07fa-4ba4-9b65-0bf8eb4ea46a&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-17T03%3A20%3A40Z&ske=2026-03-24T03%3A25%3A40Z&sks=b&skv=2026-02-06&sig=ZzdLSDI704lmXWzpoLsZOGdKamJX0gD4J8PjePsIvqk%3D&ac=oaivgprodscus2" alt="About MoneyWiz" className="rounded-2xl " data-ai-hint="finance analytics" />
                              </motion.div>
                         </div>
@@ -217,7 +218,9 @@ export default function LandingPage() {
                 </SectionWrapper>
 
                 {/* Testimonials Section */}
-                <Testimonials />
+                <SectionWrapper id="testimonials">
+                    <Testimonials />
+                </SectionWrapper>
                 
                 {/* Feedback Form Section */}
                 <SectionWrapper id="feedback" className="bg-primary/5">

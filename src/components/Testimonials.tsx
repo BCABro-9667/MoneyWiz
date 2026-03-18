@@ -1,3 +1,4 @@
+
 'use client'
 
 import React, { useCallback, useEffect, useState } from 'react'
@@ -96,7 +97,7 @@ export default function Testimonials() {
     }, [emblaApi, onSelect]);
 
     return (
-        <section id="testimonials" className="py-16 md:py-24 bg-slate-50 dark:bg-black">
+        <div id="testimonials" className="py-16 md:py-24 bg-slate-50 dark:bg-black">
             <div className="container mx-auto">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Loved by Users Worldwide</h2>
@@ -131,6 +132,6 @@ export default function Testimonials() {
                     ))}
                 </div>
             </div>
-        </section>
+        </div>
     );
 }
