@@ -6,7 +6,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import LoginModal from '@/components/LoginModal';
@@ -17,6 +16,7 @@ import hero from "./hero.png";
 import Tracking from "./Tracking.png";
 import visual from "./visual.png";
 import ai from "./ai.png";
+import Testimonials from '@/components/Testimonials';
 
 const FeatureCard = ({ img, title, description }: { img: any, title: string, description: string }) => {
     const controls = useAnimation();
@@ -45,42 +45,6 @@ const FeatureCard = ({ img, title, description }: { img: any, title: string, des
         </motion.div>
     );
 };
-
-const TestimonialCard = ({ name, role, avatar, text }: { name: string, role: string, avatar: string, text: string }) => {
-    const controls = useAnimation();
-    const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
-
-    useEffect(() => {
-        if (inView) {
-            controls.start("visible");
-        }
-    }, [controls, inView]);
-
-    const cardVariants = {
-        hidden: { opacity: 0, scale: 0.9 },
-        visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } }
-    };
-    
-    return (
-        <motion.div ref={ref} initial="hidden" animate={controls} variants={cardVariants}>
-            <Card className="bg-background/50 backdrop-blur-sm border-primary/20 rounded-2xl p-6 shadow-lg">
-                <CardContent className="p-0">
-                    <p className="text-muted-foreground mb-6 italic">"{text}"</p>
-                    <div className="flex items-center gap-4">
-                        <Avatar>
-                            <AvatarImage src={avatar} alt={name} data-ai-hint="person" />
-                            <AvatarFallback>{name.charAt(0)}</AvatarFallback>
-                        </Avatar>
-                        <div>
-                            <p className="font-semibold text-foreground">{name}</p>
-                            <p className="text-sm text-muted-foreground">{role}</p>
-                        </div>
-                    </div>
-                </CardContent>
-            </Card>
-        </motion.div>
-    );
-}
 
 const SectionWrapper = ({ id, children, className }: { id: string, children: React.ReactNode, className?: string }) => {
     const controls = useAnimation();
@@ -252,33 +216,7 @@ export default function LandingPage() {
                 </SectionWrapper>
 
                 {/* Testimonials Section */}
-                <SectionWrapper id="testimonials" className="container mx-auto">
-                    <div className="text-center">
-                        <h2 className="text-3xl md:text-4xl font-bold mb-4">Loved by Users Worldwide</h2>
-                        <p className="text-muted-foreground mb-12 max-w-2xl mx-auto">Don't just take our word for it. Here's what our users are saying.</p>
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            <TestimonialCard 
-                                name="Ayush Saini"
-                                role="Web Developer"
-                                avatar="https://media.licdn.com/dms/image/v2/D4D03AQFWVSs5yAIDYg/profile-displayphoto-crop_800_800/B4DZnrnoYCHwAI-/0/1760594666080?e=1775692800&v=beta&t=1zQ4VgRjwvLv4hIy_FgJWrgjUS15eEf_hJxkpqkiOjU"
-                                text="MoneyWiz has been a game-changer for my freelance business. I can finally see a clear picture of my income and expenses."
-                            />
-                            <TestimonialCard 
-                                name="Avdhesh Kumar"
-                                role="Software Developer"
-                                avatar="https://media.licdn.com/dms/image/v2/D4D03AQHiD3VsoyyZtA/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1677689185906?e=1775692800&v=beta&t=FJN-yinHrurLehi8G1n1O9vCKln3xLrUPALDtp2T-BA"
-                                text="The AI insights are scary good! It pointed out savings I never would have found on my own. Highly recommend."
-                            />
-                             <TestimonialCard 
-                                name="Tania Sachdev
-"
-                                role="Student"
-                                avatar="https://img.redbull.com/images/c_crop,x_0,y_0,h_1714,w_1714/c_fill,w_308,h_308/q_auto:low,f_auto/redbullcom/2025/1/17/yytzugjbylzmsamsldyp/tania-sachdev"
-                                text="As a student on a tight budget, this app is a lifesaver. It’s so easy to use and helps me stay on track with my spending."
-                            />
-                        </div>
-                    </div>
-                </SectionWrapper>
+                <Testimonials />
                 
                 {/* Feedback Form Section */}
                 <SectionWrapper id="feedback" className="bg-primary/5">
