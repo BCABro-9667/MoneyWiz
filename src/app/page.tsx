@@ -5,7 +5,7 @@ import { Landmark, Menu, X, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import LoginModal from '@/components/LoginModal';
@@ -17,6 +17,7 @@ import Tracking from "./Tracking.png";
 import visual from "./visual.png";
 import ai from "./ai.png";
 import Testimonials from '@/components/Testimonials';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const FeatureCard = ({ img, title, description }: { img: any, title: string, description: string }) => {
     const controls = useAnimation();
@@ -220,19 +221,57 @@ export default function LandingPage() {
                 
                 {/* Feedback Form Section */}
                 <SectionWrapper id="feedback" className="bg-primary/5">
-                    <div className="container mx-auto max-w-2xl text-center">
-                        <h2 className="text-3xl md:text-4xl font-bold mb-4">Have Feedback?</h2>
-                        <p className="text-muted-foreground mb-8">We'd love to hear from you! Your feedback helps us make MoneyWiz even better.</p>
-                        <Card className="text-left bg-background/80 backdrop-blur-sm border-primary/20 rounded-2xl shadow-lg">
-                           <CardContent className="p-6">
-                                <form className="space-y-4">
-                                    <Input placeholder="Your Name" />
-                                    <Input type="email" placeholder="Your Email" />
-                                    <Textarea placeholder="Your feedback..." />
-                                    <Button type="submit" className="w-full">Submit Feedback</Button>
-                                </form>
-                            </CardContent>
-                        </Card>
+                    <div className="container mx-auto max-w-6xl">
+                         <div className="text-center mb-12">
+                            <h2 className="text-3xl md:text-4xl font-bold mb-4">Questions & Feedback</h2>
+                            <p className="text-muted-foreground max-w-2xl mx-auto">Got a question or some feedback? We're all ears.</p>
+                        </div>
+                        <div className="grid md:grid-cols-2 gap-12 items-start">
+                            {/* FAQ Accordion */}
+                            <div>
+                                <Accordion type="single" collapsible className="w-full space-y-4">
+                                    <AccordionItem value="item-1" className="border-b-0 bg-background rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+                                        <AccordionTrigger className="px-6 text-left font-semibold text-base hover:no-underline">Is MoneyWiz free to use?</AccordionTrigger>
+                                        <AccordionContent className="px-6 pb-4 text-muted-foreground">
+                                            Yes, MoneyWiz offers a robust free plan with all the essential features to manage your expenses. We also have a premium plan with advanced features like AI insights and unlimited expense categories.
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                    <AccordionItem value="item-2" className="border-b-0 bg-background rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+                                        <AccordionTrigger className="px-6 text-left font-semibold text-base hover:no-underline">Is my financial data secure?</AccordionTrigger>
+                                        <AccordionContent className="px-6 pb-4 text-muted-foreground">
+                                            Absolutely. We use industry-standard encryption to protect your data. Your privacy and security are our top priorities.
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                    <AccordionItem value="item-3" className="border-b-0 bg-background rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+                                        <AccordionTrigger className="px-6 text-left font-semibold text-base hover:no-underline">Can I use MoneyWiz on multiple devices?</AccordionTrigger>
+                                        <AccordionContent className="px-6 pb-4 text-muted-foreground">
+                                            Yes, your data is synced across all your devices, so you can manage your finances seamlessly whether you're on your phone, tablet, or computer.
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                     <AccordionItem value="item-4" className="border-b-0 bg-background rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+                                        <AccordionTrigger className="px-6 text-left font-semibold text-base hover:no-underline">How does the AI-powered advice work?</AccordionTrigger>
+                                        <AccordionContent className="px-6 pb-4 text-muted-foreground">
+                                            Our smart AI analyzes your spending patterns to identify trends and potential savings opportunities. It provides personalized, actionable advice to help you improve your financial health.
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                </Accordion>
+                            </div>
+                             {/* Form */}
+                            <Card className="text-left bg-background/80 backdrop-blur-sm border-primary/20 rounded-2xl shadow-lg">
+                               <CardHeader>
+                                    <CardTitle>Send us a message</CardTitle>
+                                    <CardDescription>We'll get back to you as soon as possible.</CardDescription>
+                                </CardHeader>
+                               <CardContent>
+                                    <form className="space-y-4">
+                                        <Input placeholder="Your Name" />
+                                        <Input type="email" placeholder="Your Email" />
+                                        <Textarea placeholder="Your message..." />
+                                        <Button type="submit" className="w-full">Submit Feedback</Button>
+                                    </form>
+                                </CardContent>
+                            </Card>
+                        </div>
                     </div>
                 </SectionWrapper>
             </main>
@@ -254,9 +293,3 @@ export default function LandingPage() {
         </div>
     );
 }
-
-    
-
-    
-
-    
