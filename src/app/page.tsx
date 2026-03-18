@@ -36,11 +36,9 @@ const FeatureCard = ({ img, title, description }: { img: any, title: string, des
 
     return (
         <motion.div ref={ref} initial="hidden" animate={controls} variants={cardVariants} className="h-full">
-            <Card className="bg-background/50 backdrop-blur-sm border-primary/20 hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-2 rounded-2xl shadow-lg hover:shadow-primary/20 h-full flex flex-col text-center overflow-hidden">
-                <div className="relative h-48 w-full">
-                    <Image src={img} alt={title} layout="fill" className="object-cover" />
-                </div>
-                <CardContent className="p-6 flex flex-col flex-grow">
+            <Card className="bg-background/50 backdrop-blur-sm border-primary/20 hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-2 rounded-2xl shadow-lg hover:shadow-primary/20 h-full flex flex-col text-center">
+                <CardContent className="p-6 flex flex-col flex-grow items-center">
+                    <Image src={img} alt={title} width={80} height={80} className="mb-6" />
                     <CardTitle className="text-xl font-bold text-foreground mb-2">{title}</CardTitle>
                     <p className="text-muted-foreground">{description}</p>
                 </CardContent>
@@ -261,21 +259,22 @@ export default function LandingPage() {
                         <p className="text-muted-foreground mb-12 max-w-2xl mx-auto">Don't just take our word for it. Here's what our users are saying.</p>
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                             <TestimonialCard 
-                                name="Sarah J."
-                                role="Freelance Designer"
-                                avatar="https://picsum.photos/100/100?random=1"
+                                name="Ayush Saini"
+                                role="Web Developer"
+                                avatar="https://media.licdn.com/dms/image/v2/D4D03AQFWVSs5yAIDYg/profile-displayphoto-crop_800_800/B4DZnrnoYCHwAI-/0/1760594666080?e=1775692800&v=beta&t=1zQ4VgRjwvLv4hIy_FgJWrgjUS15eEf_hJxkpqkiOjU"
                                 text="MoneyWiz has been a game-changer for my freelance business. I can finally see a clear picture of my income and expenses."
                             />
                             <TestimonialCard 
-                                name="Michael B."
-                                role="Marketing Manager"
-                                avatar="https://picsum.photos/100/100?random=2"
+                                name="Avdhesh Kumar"
+                                role="Software Developer"
+                                avatar="https://media.licdn.com/dms/image/v2/D4D03AQHiD3VsoyyZtA/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1677689185906?e=1775692800&v=beta&t=FJN-yinHrurLehi8G1n1O9vCKln3xLrUPALDtp2T-BA"
                                 text="The AI insights are scary good! It pointed out savings I never would have found on my own. Highly recommend."
                             />
                              <TestimonialCard 
-                                name="Anita K."
+                                name="Tania Sachdev
+"
                                 role="Student"
-                                avatar="https://picsum.photos/100/100?random=3"
+                                avatar="https://img.redbull.com/images/c_crop,x_0,y_0,h_1714,w_1714/c_fill,w_308,h_308/q_auto:low,f_auto/redbullcom/2025/1/17/yytzugjbylzmsamsldyp/tania-sachdev"
                                 text="As a student on a tight budget, this app is a lifesaver. It’s so easy to use and helps me stay on track with my spending."
                             />
                         </div>
@@ -318,6 +317,8 @@ export default function LandingPage() {
         </div>
     );
 }
+
+    
 
     
 
