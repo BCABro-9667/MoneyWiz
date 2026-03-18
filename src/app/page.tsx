@@ -2,8 +2,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Landmark, Menu, X, ArrowRight } from 'lucide-react';
+import { Landmark, Menu, X, ArrowRight, BarChart2, BrainCircuit } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -190,7 +191,7 @@ export default function LandingPage() {
                             Get Started for Free <ArrowRight className="ml-2" />
                         </Button>
                         <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.5 }}>
-                            <img src="https://picsum.photos/1200/600" alt="Dashboard preview" className="mt-12 rounded-2xl shadow-2xl mx-auto border-4 border-primary/20" data-ai-hint="app dashboard" />
+                            <Image src="/img1.png" alt="Dashboard preview" width={1200} height={600} className="mt-12 rounded-2xl shadow-2xl mx-auto border-4 border-primary/20" />
                         </motion.div>
                     </motion.div>
                 </SectionWrapper>
@@ -227,7 +228,7 @@ export default function LandingPage() {
                                 description="Quickly add and categorize expenses with our intuitive interface. Your finances, organized in seconds."
                             />
                             <FeatureCard
-                                icon={<BarChart />}
+                                icon={<BarChart2 />}
                                 title="Visual Insights"
                                 description="Beautiful charts and graphs that help you understand where your money is going."
                             />
@@ -290,7 +291,7 @@ export default function LandingPage() {
             {/* Footer */}
             <footer className="bg-background border-t border-border">
                 <div className="container mx-auto py-8 px-4 md:px-8 text-center text-muted-foreground">
-                    <p>&copy; {new Date().getFullYear()} MoneyWiz. All rights reserved.</p>
+                    <p>&copy; {new Date().getFullYear()} MoneyWiz. All rights reserved. (Neha Yadav) </p>
                     <div className="flex justify-center gap-4 mt-4">
                          <a href="#about" className="hover:text-primary">About</a>
                          <a href="#features" className="hover:text-primary">Features</a>
@@ -304,7 +305,3 @@ export default function LandingPage() {
         </div>
     );
 }
-
-// Dummy components until real ones are created
-const BarChart = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-bar-chart-2"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>;
-const BrainCircuit = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-brain-circuit"><path d="M12 5a3 3 0 1 0-5.997.142A3 3 0 0 0 12 5Z"/><path d="M12 19a3 3 0 0 0-5.997-.142A3 3 0 0 0 12 19Z"/><path d="M12 12a3 3 0 0 1 5.997.142A3 3 0 0 1 12 12Z"/><path d="M21 12a3 3 0 0 1-5.997.142A3 3 0 0 1 21 12Z"/><path d="M3 12a3 3 0 0 0 5.997-.142A3 3 0 0 0 3 12Z"/><path d="M12 5a2.5 2.5 0 0 0-1.84.75"/><path d="M12 5a2.5 2.5 0 0 1 1.84.75"/><path d="m14.5 12.5.003-.005A2.5 2.5 0 0 1 12 15a2.5 2.5 0 0 1-2.5-2.5.001.001 0 0 0 0 0"/><path d="m14.5 11.5.003.005A2.5 2.5 0 0 0 12 9a2.5 2.5 0 0 0-2.5 2.5.001.001 0 0 1 0 0"/><path d="m9.5 12.5-.003.005A2.5 2.5 0 0 0 12 15a2.5 2.5 0 0 0 2.5-2.5.001.001 0 0 1 0 0"/><path d="m9.5 11.5-.003-.005A2.5 2.5 0 0 1 12 9a2.5 2.5 0 0 1 2.5 2.5.001.001 0 0 0 0 0"/><path d="M6.16 5.75A2.5 2.5 0 0 0 7.5 8"/><path d="M6.16 6.25A2.5 2.5 0 0 1 7.5 4"/><path d="M17.84 5.75A2.5 2.5 0 0 1 16.5 8"/><path d="M17.84 6.25A2.5 2.5 0 0 0 16.5 4"/><path d="m6.003 18.145-.002.003A2.5 2.5 0 0 0 7.5 21a2.5 2.5 0 0 0 1.5-2.5v-1"/><path d="m6.003 17.855.002-.003A2.5 2.5 0 0 1 7.5 15a2.5 2.5 0 0 1 1.5 2.5v1"/><path d="m18.003 18.145.002.003A2.5 2.5 0 0 1 16.5 21a2.5 2.5 0 0 1-1.5-2.5v-1"/><path d="m18.003 17.855-.002-.003A2.5 2.5 0 0 0 16.5 15a2.5 2.5 0 0 0-1.5 2.5v1"/></svg>;
