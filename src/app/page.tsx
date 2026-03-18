@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Landmark, Menu, X, ArrowRight, BarChart2, BrainCircuit } from 'lucide-react';
+import { Landmark, Menu, X, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -14,8 +14,12 @@ import LoginModal from '@/components/LoginModal';
 import RegisterModal from '@/components/RegisterModal';
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import hero from "./hero.png";
+import Tracking from "./Tracking.png";
+import visual from "./visual.png";
+import ai from "./ai.png";
 
-const FeatureCard = ({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) => {
+const FeatureCard = ({ img, title, description }: { img: any, title: string, description: string }) => {
     const controls = useAnimation();
     const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
@@ -31,15 +35,13 @@ const FeatureCard = ({ icon, title, description }: { icon: React.ReactNode, titl
     };
 
     return (
-        <motion.div ref={ref} initial="hidden" animate={controls} variants={cardVariants}>
-            <Card className="bg-background/50 backdrop-blur-sm border-primary/20 hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-2 rounded-2xl shadow-lg hover:shadow-primary/20">
-                <CardHeader className="flex items-center gap-4">
-                    <div className="p-3 bg-primary/10 rounded-full text-primary">
-                        {icon}
-                    </div>
-                    <CardTitle className="text-xl font-bold text-foreground">{title}</CardTitle>
-                </CardHeader>
-                <CardContent>
+        <motion.div ref={ref} initial="hidden" animate={controls} variants={cardVariants} className="h-full">
+            <Card className="bg-background/50 backdrop-blur-sm border-primary/20 hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-2 rounded-2xl shadow-lg hover:shadow-primary/20 h-full flex flex-col text-center overflow-hidden">
+                <div className="relative h-48 w-full">
+                    <Image src={img} alt={title} layout="fill" className="object-cover" />
+                </div>
+                <CardContent className="p-6 flex flex-col flex-grow">
+                    <CardTitle className="text-xl font-bold text-foreground mb-2">{title}</CardTitle>
                     <p className="text-muted-foreground">{description}</p>
                 </CardContent>
             </Card>
@@ -179,7 +181,7 @@ export default function LandingPage() {
 
             <main>
                 {/* Home Section */}
-                <SectionWrapper id="home" className="pt-32 md:pt-48">
+                <SectionWrapper id="home" className="pt-32 md:pt-48 -mt-20">
                      <div className="container mx-auto grid md:grid-cols-2 gap-12 items-center">
                         <motion.div 
                             initial={{ opacity: 0, x: -50 }} 
@@ -202,7 +204,7 @@ export default function LandingPage() {
                             animate={{ opacity: 1, x: 0 }} 
                             transition={{ duration: 1, delay: 0.5 }}
                         >
-                            <Image src="/img1.png" alt="Dashboard preview" width={1200} height={600} className="rounded-2xl shadow-2xl mx-auto border-4 border-primary/20" />
+                            <Image src={hero} alt="Dashboard preview" width={800} height={300} className="" />
                         </motion.div>
                     </div>
                 </SectionWrapper>
@@ -234,17 +236,17 @@ export default function LandingPage() {
                         <p className="text-muted-foreground mb-12 max-w-2xl mx-auto">Everything you need to stay on top of your finances, all in one place.</p>
                         <div className="grid md:grid-cols-3 gap-8">
                             <FeatureCard
-                                icon={<Landmark />}
+                                img={Tracking}
                                 title="Effortless Tracking"
                                 description="Quickly add and categorize expenses with our intuitive interface. Your finances, organized in seconds."
                             />
                             <FeatureCard
-                                icon={<BarChart2 />}
+                                img={visual}
                                 title="Visual Insights"
                                 description="Beautiful charts and graphs that help you understand where your money is going."
                             />
                             <FeatureCard
-                                icon={<BrainCircuit />}
+                                img={ai}
                                 title="AI-Powered Advice"
                                 description="Get personalized suggestions and insights from our smart AI to help you save more."
                             />
@@ -316,5 +318,7 @@ export default function LandingPage() {
         </div>
     );
 }
+
+    
 
     
