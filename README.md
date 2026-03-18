@@ -1,126 +1,250 @@
-# MoneyWiz - Intelligent Expense Management
+💰 MoneyWiz – Intelligent Expense Management System
 
-MoneyWiz is a modern, full-stack web application designed to provide an intelligent and effortless way to manage your expenses. It features a sleek, animated user interface, robust authentication, and powerful AI-driven insights to help users gain control over their financial health.
+MoneyWiz is a full-stack web application designed to help users track, manage, and analyze their expenses efficiently. The system provides an interactive dashboard, expense categorization, and AI-powered financial insights that help users understand their spending habits and improve savings.
 
-![Landing Page](https://picsum.photos/1200/600)
+This project was developed as part of the MCA Master Project.
 
-## ✨ Features
+🎓 Project Information
+Field	Details
+Project Title	MoneyWiz – Intelligent Expense Management
+Course	Master of Computer Applications (MCA)
+College	DPG School of Technology & Management
+University	Maharishi Dayanand University
+Technology	Next.js, MongoDB, TypeScript
+Duration	Feb 2026 – May 2026
+🎯 Project Objectives
 
-*   **Modern Landing Page**: A beautiful, animated, and responsive landing page with sections for Home, About, Features, and Testimonials.
-*   **User Authentication**: Secure user registration and login system using JWT and bcrypt for password hashing.
-*   **Interactive Dashboard**: A central hub displaying a summary of expenses, quick-add forms, and recent transactions.
-*   **Expense Management**: Create, read, update, and delete expense categories (e.g., "Monthly Groceries", "Vacation").
-*   **Expenditure Tracking**: Add individual expenditures to each expense, including amount and name.
-*   **Optimistic UI Updates**: A fast and responsive user experience using optimistic updates for data mutations. Changes appear instantly in the UI.
-*   **User Profile Management**: A dedicated profile page where users can update their name and profile picture.
-*   **AI-Powered Insights**: Utilizes Genkit to analyze spending habits and provide actionable advice for savings.
-*   **Modal-Based Auth**: Seamless sign-in and sign-up experience through non-intrusive modals.
-*   **Fully Responsive**: A mobile-first design that looks and works great on all devices, from desktops to smartphones.
-*   **Print Functionality**: Generate a clean, printable report for any expense.
+The main objectives of this project are:
 
-## 🚀 Tech Stack
+To develop a web-based expense management system
 
-*   **Framework**: [Next.js](https://nextjs.org/) (App Router)
-*   **Language**: [TypeScript](https://www.typescriptlang.org/)
-*   **Styling**: [Tailwind CSS](https://tailwindcss.com/) with [ShadCN/UI](https://ui.shadcn.com/) for components.
-*   **Animations**: [Framer Motion](https://www.framer.com/motion/)
-*   **Database**: [MongoDB](https://www.mongodb.com/) with [Mongoose](https://mongoosejs.com/) for object data modeling.
-*   **Authentication**: [JSON Web Tokens (JWT)](https://jwt.io/), [bcrypt.js](https://github.com/dcodeIO/bcrypt.js)
-*   **AI/Generative**: [Genkit](https://firebase.google.com/docs/genkit)
-*   **State Management**: React Hooks (`useState`, `useEffect`, `useContext`) combined with a custom `useExpenses` hook for efficient data fetching, caching, and optimistic updates.
-*   **Form Management**: [React Hook Form](https://react-hook-form.com/) with [Zod](https://zod.dev/) for validation.
+To help users track daily expenses easily
 
-## 🏁 Getting Started
+To provide AI-based spending insights
 
-Follow these instructions to get a local copy of the project up and running.
+To visualize spending data using charts and dashboards
 
-### Prerequisites
+To maintain secure user authentication
 
-*   Node.js (v18 or later recommended)
-*   npm or yarn
+To generate printable expense reports
 
-### Installation
+✨ Key Features
+1️⃣ User Authentication
 
-1.  **Clone the repository:**
-    ```bash
-    git clone <your-repository-url>
-    cd <project-directory>
-    ```
+Secure login and registration
 
-2.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
+Password encryption using bcrypt
 
-3.  **Set up environment variables:**
+JWT based authentication
 
-    Create a file named `.env` in the root of your project and add the following variables. Replace the placeholder values with your actual data.
+2️⃣ Expense Management
 
-    ```env
-    # Your MongoDB connection string
-    MONGO_URI="mongodb+srv://Avdhesh1:ya4XYnQUEtYhv5kr@cluster0.0uojesi.mongodb.net/MoneyWiz"
+Users can:
 
-    # A strong, secret key for signing JWTs
-    JWT_SECRET="YOUR_SUPER_SECRET_JWT_KEY"
-    ```
+Create expense categories
 
-4.  **Run the development server:**
-    ```bash
-    npm run dev
-    ```
+Add expenditures
 
-    The application will be available at `http://localhost:9002`.
+Edit or delete transactions
 
-## 📂 Project Structure
+3️⃣ Interactive Dashboard
 
-The project follows a standard Next.js App Router structure:
+Displays:
 
-```
+Total expenses
+
+Recent transactions
+
+Spending overview
+
+4️⃣ AI Financial Insights
+
+Analyzes spending habits
+
+Suggests ways to save money
+
+5️⃣ Profile Management
+
+Users can update:
+
+Name
+
+Profile picture
+
+6️⃣ Responsive UI
+
+The application works on:
+
+Desktop
+
+Tablet
+
+Mobile devices
+
+7️⃣ Printable Reports
+
+Users can generate a printable expense report.
+
+🛠 Technology Stack
+Frontend
+
+Next.js (App Router)
+
+TypeScript
+
+Tailwind CSS
+
+ShadCN UI
+
+Framer Motion
+
+Backend
+
+Node.js
+
+Next.js API Routes
+
+Database
+
+MongoDB
+
+Mongoose
+
+Authentication
+
+JWT
+
+bcrypt.js
+
+AI Integration
+
+Firebase Genkit
+
+🏗 System Architecture
+
+The application follows a full-stack architecture.
+
+Client (Next.js UI)
+        │
+        ▼
+API Routes (Next.js Backend)
+        │
+        ▼
+MongoDB Database
+📂 Project Structure
 src
-├── ai/                    # Genkit flows and configuration
-├── app/                   # Next.js pages and API routes
-│   ├── api/               # Backend API endpoints
-│   ├── dashboard/         # Dashboard page
-│   ├── expense/           # Dynamic page for a single expense
-│   ├── profile/           # User profile page
-│   ├── layout.tsx         # Root layout
+│
+├── ai/                    # AI logic and Genkit flows
+│
+├── app/                   # Next.js pages
+│   ├── api/               # Backend APIs
+│   ├── dashboard/         # User dashboard
+│   ├── expense/           # Expense details page
+│   ├── profile/           # Profile page
 │   └── page.tsx           # Landing page
-├── components/            # Reusable UI components
-│   ├── ui/                # ShadCN UI components
-│   └── *.tsx              # Application-specific components
+│
+├── components/            # Reusable components
+│
 ├── hooks/                 # Custom React hooks
-│   └── use-expenses.ts    # Main hook for managing expense data
-├── lib/                   # Core utilities and libraries
-│   ├── auth.ts            # Authentication helpers
-│   ├── db.ts              # Database connection logic
-│   ├── types.ts           # TypeScript type definitions
-│   └── utils.ts           # General utility functions
-├── middleware.ts          # Authentication and routing middleware
-└── models/                # Mongoose schemas for database models
-    ├── Expense.ts
-    └── User.ts
-```
+│
+├── lib/                   # Utility functions
+│
+├── models/                # Database schemas
+│
+└── middleware.ts          # Authentication middleware
+⚙ Installation & Setup
 
-## 🔌 API Endpoints
+Follow these steps to run the project locally.
 
-The backend is built using Next.js API Routes.
+1️⃣ Clone the Repository
+git clone <repository-url>
+cd moneywiz
+2️⃣ Install Dependencies
+npm install
+3️⃣ Environment Variables
 
-*   `POST /api/auth/register`: Creates a new user.
-*   `POST /api/auth/login`: Authenticates a user and returns a JWT.
-*   `POST /api/auth/logout`: Clears the authentication cookie.
-*   `GET /api/auth/user`: Retrieves the currently authenticated user's data.
-*   `PUT /api/auth/user`: Updates the authenticated user's profile (name, avatar).
-*   `GET /api/expenses`: Fetches all expenses for the logged-in user.
-*   `POST /api/expenses`: Creates a new expense.
-*   `GET /api/expenses/[id]`: Fetches a single expense by its ID.
-*   `PUT /api/expenses/[id]`: Updates an expense's details.
-*   `DELETE /api/expenses/[id]`: Deletes an expense.
-*   `POST /api/expenses/[id]/expenditures`: Adds a new expenditure to an expense.
-*   `PUT /api/expenses/[id]/expenditures/[expenditureId]`: Updates an expenditure.
-*   `DELETE /api/expenses/[id]/expenditures/[expenditureId]`: Deletes an expenditure.
+Create .env file in the root directory.
 
-## 🤖 AI Features
+MONGO_URI="your_mongodb_connection_string"
+JWT_SECRET="your_secret_key"
+4️⃣ Run Development Server
+npm run dev
 
-The application leverages **Genkit** to provide AI-powered spending analysis.
+Open the application at:
 
-*   **`src/ai/flows/spending-insights.ts`**: This flow accepts a list of a user's expenditures. It uses a generative model to analyze spending patterns and returns a summary and actionable insights for potential savings. This feature can be integrated into the dashboard to provide users with personalized financial advice.
+http://localhost:9002
+🔌 API Endpoints
+Authentication
+Method	Endpoint	Description
+POST	/api/auth/register	Register new user
+POST	/api/auth/login	Login user
+POST	/api/auth/logout	Logout user
+User
+Method	Endpoint	Description
+GET	/api/auth/user	Get user profile
+PUT	/api/auth/user	Update profile
+Expenses
+Method	Endpoint	Description
+GET	/api/expenses	Get all expenses
+POST	/api/expenses	Create expense
+PUT	/api/expenses/[id]	Update expense
+DELETE	/api/expenses/[id]	Delete expense
+📊 Database Models
+User Model
+
+Stores:
+
+Name
+
+Email
+
+Password
+
+Avatar
+
+Expense Model
+
+Stores:
+
+Expense title
+
+Expenditures list
+
+Amount
+
+Date
+
+🧪 Testing
+
+Testing includes:
+
+API testing
+
+Authentication testing
+
+Expense CRUD operations
+
+Dashboard functionality
+
+Test cases were created to ensure:
+
+Correct expense calculations
+
+Secure authentication
+
+Proper error handling
+
+
+Possible future enhancements:
+
+Mobile application version
+
+AI based budget prediction
+
+Expense reminder notifications
+
+Multi-user family budgeting
+
+📜 License
+
+This project is developed for educational purposes as part of MCA coursework.
